@@ -26,7 +26,7 @@ int main(int argc, char **argv)
 {
 	int i, j, c, file_line, file_stream, opcode_fun_num;
 	char file_buffer[POSSIBLE_BUFFER], opcode_possible_command[POSSIBLE_BUFFER], op_command_buffer[COMMAND_BUFFER];
-	stack_d *head;
+	instruction_a *head;
 
 	/** get the n of functions we have */
 	opcode_fun_num = (sizeof(opcode) / sizeof(char *));
@@ -39,6 +39,7 @@ int main(int argc, char **argv)
 	{
 		/** read the file stream */
 		file_stream = open(argv, O_RDONLY);
+		/** add an EOF to the end of file buffer for checking*/
 		read(file_stream, (char *)file_buffer, POSSIBLE_BUFFER);
 		/** Save all but spaces to an array to check for commands */
 		for(i = 0; (i <= POSSIBLE_BUFFER) && (file_buffer[i] != '\0'); i++)
@@ -55,7 +56,9 @@ int main(int argc, char **argv)
 		for(j = 0; (j <= opcode_fun_num); j++)
 			if (strcmp(opcode[j], opcode_possible_command) == 0)
 			{
-				stack_d->opcode = i;
+				/** If you find the operation, save it to the op */
+				op_add_instruction(head, (const int)i);
+				/** If op is push, handle the saving of push value */
 				if (opcode[j] == "push")
 				{
 					if (!file_buffer[i])
@@ -79,10 +82,10 @@ int main(int argc, char **argv)
 							break;
 						}
 					}
-					/** send this to the fun as the input */
-					/** stack_d->value = atoi(op_command_buffer); */
-					/**head next goes here */
-					stack_add(&head, const int);
+					/** save the values to the op as int*/
+					i = atoi(op_command_buffer);
+					op_add_value(&head, (const int)i);
+					stack_add(&head, op_command_buffer);
 				}
 			}
 	}
@@ -92,8 +95,8 @@ int main(int argc, char **argv)
 
 int fun_caller(void)
 {
-	char *op = instruction_t->opcode;
-	int *args = stack_t->n;
+	int *op = instruction_a->opcode;
+	int *args = instruction_a->value;
 	int (*opcode_fun[])(int *) = {
 		&fun_push,
 		&fun_pall,

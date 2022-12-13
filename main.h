@@ -13,22 +13,25 @@
 
 
 /**==================================*/
-/**========= definitions  ===========*/
+/**========= macro defns  ===========*/
 /**==================================*/
 #define POSSIBLE_BUFFER 80
 #define COMMAND_BUFFER 124
 
 
-
 /**==================================*/
 /**===== function signatures=========*/
 /**==================================*/
+
 /** auxiliary functions */
 int fun_caller(void);
 int fun_exit(int);
 
-/** stack functions */
-stack_d *stack_add(stack_d **, const int);
+/** instruct op functions */
+
+instruction_a *op_add_value(instruction_a **, const int);
+void *op_add_instruction(instruction_a **, const int);
+instruction_a *op_get_first(instruction_a **);
 
 /** interpreter functions */
 int fun_push(int *);
@@ -60,6 +63,8 @@ typedef struct stack_s
         struct stack_s *next;
 } stack_t;
 
+/**********/
+
 /**
  * struct instruction_s - opcode and its function
  * @opcode: the opcode
@@ -74,6 +79,8 @@ typedef struct instruction_s
         void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+/**********/
+
 /**
  * struct stack_c - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -83,11 +90,13 @@ typedef struct instruction_s
  * Description: doubly linked list node structure
  * for stack, queues, LIFO, FIFO
  */
-typedef struct stack_c
+typedef struct instruction_a
 {
         int value;
 	int opcode;
         struct stack_c *prev;
         struct stack_c *next;
-} stack_d;
+} instruction_b;
+
+
 #endif
