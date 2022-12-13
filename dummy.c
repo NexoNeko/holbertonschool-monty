@@ -1,9 +1,15 @@
 #include "main.h"
 int fun_exit(int a)
 {
-	if (a)
+	switch(a)
+	{
+	case 1:
+		printf("no arguments passed\n");
 		exit(0);
-	exit(0);
+		break;
+	default:
+		return(0);
+	}
 }
 int fun_push(int a)
 {

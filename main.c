@@ -28,17 +28,21 @@ int main(int argc, char **argv)
 	char file_buffer[POSSIBLE_BUFFER], opcode_possible_command[POSSIBLE_BUFFER], op_command_buffer[COMMAND_BUFFER];
 	struct instruction_a *head;
 
+	/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+	printf("entering main\n");
+	/**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+
 	/** get the n of functions we have */
 	opcode_fun_num = (sizeof(opcode) / sizeof(char *));
 	/** if no argument is given, exit error */
 	/** if can't access the file, exit error */
-	if (argc < 1 || access(*argv, R_OK) != 0)
+	if (argc < 1 || access(argv[1], R_OK) != 0)
 		fun_exit(1);
 
 	for (file_line = 0; file_buffer[file_line] != EOF; file_line++)
 	{
 		/** read the file stream */
-		file_stream = open(*argv, O_RDONLY);
+		file_stream = open(argv[1], O_RDONLY);
 		/** add an EOF to the end of file buffer for checking*/
 		read(file_stream, (char *)file_buffer, POSSIBLE_BUFFER);
 		/** Save all but spaces to an array to check for commands */
