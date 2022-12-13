@@ -54,12 +54,12 @@ int main(int argc, char **argv)
 				i++;
 		}
 		for(j = 0; (j <= opcode_fun_num); j++)
-			if (strcmp(opcode[j], opcode_possible_command) == 0)
+			if (strcmp(*opcode, opcode_possible_command) == 0)
 			{
 				/** If you find the operation, save it to the op */
 				op_add_instruction(&head, (const int)i);
-				/** If op is push, handle the saving of push value */
-				if (opcode[j] == "push")
+				/** If op is push(1), handle the saving of push value */
+				if (i == 1)
 				{
 					if (!file_buffer[i])
 						fun_exit(3);
@@ -85,7 +85,6 @@ int main(int argc, char **argv)
 					/** save the values to the op as int*/
 					i = atoi(op_command_buffer);
 					op_add_value(&head, (const int)i);
-					stack_add(&head, op_command_buffer);
 				}
 			}
 	}
@@ -93,11 +92,11 @@ int main(int argc, char **argv)
 	return(0);
 }
 
-int fun_caller(void)
+int fun_caller(const instruction_b *head)
 {
-	int *op = instruction_a->opcode;
-	int *args = instruction_a->value;
-	int (*opcode_fun[])(int *) = {
+	int op = head->opcode;
+	int args = head->value;
+	int (*opcode_fun[])(int) = {
 		&fun_push,
 		&fun_pall,
 		&fun_pint,

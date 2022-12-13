@@ -52,8 +52,8 @@ typedef struct instruction_a
 {
         int value;
 	int opcode;
-        struct stack_c *prev;
-        struct stack_c *next;
+        struct instruction_a *prev;
+        struct instruction_a *next;
 } instruction_b;
 
 /********** structs end **********/
@@ -82,23 +82,23 @@ typedef struct instruction_a
 /**==================================*/
 
 /** auxiliary functions */
-int fun_caller(void);
+int fun_caller(const instruction_b *);
 int fun_exit(int);
 
 /** instruct op functions */
 
-instruction_b *op_add_value(instruction_b **, const int);
-void *op_add_instruction(instruction_b **, const int);
+int op_add_value(instruction_b **, const int);
+int op_add_instruction(instruction_b **, const int);
 instruction_b *op_get_first(instruction_b **);
 
 /** interpreter functions */
-int fun_push(int *);
-int fun_pall(int *);
-int fun_pint(int *);
-int fun_pop(int *);
-int fun_swap(int *);
-int fun_add(int *);
-int fun_nop(int *);
+int fun_push(int);
+int fun_pall(int);
+int fun_pint(int);
+int fun_pop(int);
+int fun_swap(int);
+int fun_add(int);
+int fun_nop(int);
 
 
 #endif
