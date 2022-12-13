@@ -28,10 +28,6 @@ int main(int argc, char **argv)
 	char file_buffer[POSSIBLE_BUFFER], opcode_possible_command[POSSIBLE_BUFFER], op_command_buffer[COMMAND_BUFFER];
 	struct instruction_a *head;
 
-	/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-	printf("entering main\n");
-	/**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
-
 	/** get the n of functions we have */
 	opcode_fun_num = (sizeof(opcode) / sizeof(char *));
 	/** if no argument is given, exit error */
