@@ -10,9 +10,9 @@
  * op_add_value! This will move the position of head to the
  * next node!
  */
-instruction_a *op_add_value(instruction_a **head, const int op_value)
+instruction_b *op_add_value(instruction_b **head, const int op_value)
 {
-	instruction_a *new_node = malloc(sizeof(instruction_a));
+	instruction_b *new_node = malloc(sizeof(instruction_b));
 
 	if (!new_node || !head)
 		free(new_node);
@@ -38,9 +38,9 @@ instruction_a *op_add_value(instruction_a **head, const int op_value)
  * in a row!
  * It will not change the position of head!
  */
-void *op_add_instruction(instruction_a **head, const int op)
+void *op_add_instruction(instruction_b **head, const int op)
 {
-        instruction_a *new_node = malloc(sizeof(instruction_a));
+        instruction_b *new_node = malloc(sizeof(instruction_b));
 
 	if (!new_node || !head)
 		free(new_node);
@@ -60,7 +60,7 @@ void *op_add_instruction(instruction_a **head, const int op)
  *
  * Return: Pointer to first node
  */
-instruction_a *op_get_first(instruction_a **head)
+instruction_b *op_get_first(instruction_b **head)
 {
 	if (*head)
 	{

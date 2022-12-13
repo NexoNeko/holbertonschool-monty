@@ -1,48 +1,6 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-
-/**==================================*/
-/**========= header files ===========*/
-/**==================================*/
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <string.h>
-
-
-/**==================================*/
-/**========= macro defns  ===========*/
-/**==================================*/
-#define POSSIBLE_BUFFER 80
-#define COMMAND_BUFFER 124
-
-
-/**==================================*/
-/**===== function signatures=========*/
-/**==================================*/
-
-/** auxiliary functions */
-int fun_caller(void);
-int fun_exit(int);
-
-/** instruct op functions */
-
-instruction_a *op_add_value(instruction_a **, const int);
-void *op_add_instruction(instruction_a **, const int);
-instruction_a *op_get_first(instruction_a **);
-
-/** interpreter functions */
-int fun_push(int *);
-int fun_pall(int *);
-int fun_pint(int *);
-int fun_pop(int *);
-int fun_swap(int *);
-int fun_add(int *);
-int fun_nop(int *);
-
-
 /**==================================*/
 /**========= structs ================*/
 /**==================================*/
@@ -82,7 +40,7 @@ typedef struct instruction_s
 /**********/
 
 /**
- * struct stack_c - doubly linked list representation of a stack (or queue)
+ * struct instruction_b - doubly linked list representation of a stack (or queue)
  * @n: integer
  * @prev: points to the previous element of the stack (or queue)
  * @next: points to the next element of the stack (or queue)
@@ -97,6 +55,50 @@ typedef struct instruction_a
         struct stack_c *prev;
         struct stack_c *next;
 } instruction_b;
+
+/********** structs end **********/
+
+
+
+/**==================================*/
+/**========= header files ===========*/
+/**==================================*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <string.h>
+
+
+/**==================================*/
+/**========= macro defns  ===========*/
+/**==================================*/
+#define POSSIBLE_BUFFER 80
+#define COMMAND_BUFFER 124
+
+
+/**==================================*/
+/**===== function signatures=========*/
+/**==================================*/
+
+/** auxiliary functions */
+int fun_caller(void);
+int fun_exit(int);
+
+/** instruct op functions */
+
+instruction_b *op_add_value(instruction_b **, const int);
+void *op_add_instruction(instruction_b **, const int);
+instruction_b *op_get_first(instruction_b **);
+
+/** interpreter functions */
+int fun_push(int *);
+int fun_pall(int *);
+int fun_pint(int *);
+int fun_pop(int *);
+int fun_swap(int *);
+int fun_add(int *);
+int fun_nop(int *);
 
 
 #endif
