@@ -1,0 +1,46 @@
+You will need a buffer to store the values of the file, an array of 80 chars will do.
+
+Start >> main:
+	if argc < 1 or access(R_OK, *argv) != 0
+		call fun_exit with value 1 for "Cannot access the file FILENAME"
+
+	open the file pointed by argv, save it in int monty_file_stream
+
+	Save everything into the stack
+	>enter loop
+		>while (monty_file_stream != EOF)
+		>read(monty_file_stream, file_buffer, 80);
+			>>enter loop while (i <= 80 && file_buffer[i] != '\0')
+				||Space found?
+				| Ignore space
+				|||Else:
+				|>>>enter loop
+				|	>>>for(j = 0; (file_buffer[i] != space) && (j < opcode_possible_buffer); i++)
+				|	>>>Add char to opcode_possible_command[j++]
+				|>>>repeat loop
+				 loop through all the Values that start with a command name
+				>>>enter loop
+					||Value found?
+					| Replace command name for index number
+					| Save command to (char)opcode
+					|=||Command name not in the opcode_ignore list && file_buffer[i] != '\0' ?
+					|=|>>>>enter loop
+					|=|		>>>>for(j = 0; (file_buffer[i] != '\0') && (j < opcode_command_buffer); j++)
+					|=|=	||Value is space?
+					|=|=	| i++;
+					|=|=	|||Else
+					|=|=	| Add char to op_command_buffer[j++]
+					|=|=	>>>repeat loop
+					| malloc (j + 1) to the stack->value pointer to save the command
+					| || !malloc? => exit(2) "Error: malloc failed"
+					| save the index number to the stack->value
+					| atoi the op_command_buffer and save the value/s to stack->value
+					| move the stack to stack->next
+					| Break loop<<<
+				>>>repeat loop
+			>>repeat loop
+		i = 0;
+	>repeat loop
+
+	call exit (funcaller(void));
+**/
