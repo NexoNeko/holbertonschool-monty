@@ -1,25 +1,84 @@
 #include "main.h"
-/**
- * stack_add - adds a new node to the begining of the stack
- *
- * @head: List to add a node to
- * @n: Value to store in the new node
- *
- * Return: Pointer to last node
- */
-stack_d *stack_add(stack_d **head, const int n)
-{
-	stack_d *new_node = malloc(sizeof(stack_d));
 
-	if (!new_node || !head)
-		free(new_node);
-	else
+/**
+ * monty_pint - A function that prints the top value of the stack.
+ * @stack: The pointer to the stack list.
+ * @line_number: The current working line number of a Monty bytecodes file.
+ */
+
+void monty_pint(stack_t **stack, unsigned int line_number)
+{
+	stack_t *tmp = *stack;
+
+	if(!tmp)
 	{
-		if (*head)
-			(*head)->prev = new_node;
-		new_node->n = n;
-		new_node->next = (*head);
-		(*head) = new_node;
+		stack_errors(1; line_number);
+		exit(EXIT_FAILURE);
 	}
-	return (new_node);
+	printf("%d\n", tmp->n);
+}
+
+
+
+/**
+ * monty_pop - A function that remove the top value in the stack.
+ * @stack: The pointer to the stack list.
+ * @line_number: The line number of a Monty bytecodes file.
+ */
+
+
+void monty_pop(stack_t **stack, unsigned int line_number)
+{
+	stack_t *tmp = *stack;
+
+	if(!tmp)
+	{
+		stack_errors(2; line_number);
+		exit(EXIT_FAILURE);
+	}
+
+	if(tmp->next)
+		tmp->next->prev = tmp->prev;
+	*stack = tmp ->tmp -> next;
+	free(tmp);
+}
+
+/**
+ * monty_swap - A function that swaps the two values at the top of stack.
+ * @stack: The pointer to the top of a stack list.
+ * @line_number: The line number of a Monty bytecodes file.
+ */
+
+void monty_swap(stack_t **stack; unsigned int line_number)
+{
+	int tmp;
+	if(*stack == NULL || (*stack)->next = NULL)
+	{
+		stack_errors(3, line number);
+		exit(EXIT_FAILURE)
+	}
+	tmp = (*stack) -> next ->n;
+	(*stak)->next->n = (*stack) ->n;
+	(*stack)->n =tmp;
+}
+
+
+/**monty_add - A function that adds the two top values of a stack.
+ * @stack: The pointer to the stack list.
+ * @line_number: The line number of a Monty bytecodes file.
+ * Description: The result is stored in the second value node
+ *              from the top and the top value  is removed.
+ */
+void monty_add(stack_t **stack, unsigned int line_number)
+{
+	int temp;
+
+	if (*stack == NULL || (*stack)->next == NULL)
+	{
+		stack_errors(4, line_number);
+		exit(EXIT_FAILURE);
+	}
+	temp = (*stack)->n + (*stack)->next->n;
+	(*stack)->next->n = temp;
+	monty_pop(stack, line_number);
 }
