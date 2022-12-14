@@ -86,8 +86,14 @@ typedef struct instruction_s
 typedef struct stack_c
 {
         int value;
-	int opcode;
+:	int opcode;
         struct stack_c *prev;
         struct stack_c *next;
 } stack_d;
-#endif
+/**==================================*/
+/**========= stack_funs.c ===========*/
+/**==================================*/
+int fun_pint(stack_t **stack, unsigned int line_number)
+int fun_pop(stack_t **stack, unsigned int line_number)
+int fun_swap(stack_t **stack, nsigned int line_number)
+int fun_add(stack_t **stack, unsigned int line_number)
