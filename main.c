@@ -116,8 +116,22 @@ int main(int argc, char **argv)
 				for (j = 0; j < POSSIBLE_BUFFER; j++)
 					opcode_possible_command[j] = '\0';
 
-				for(j = i; MINUS(file_line[j]); j--)
-					;
+				j = i;
+				for(j--; MINUS(file_line[j]); )
+				{
+/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+				printf("\nWAIT\n");
+				printf("Previous value is a char!");
+				printf("\nValue: %c\n", file_line[j]);
+				getchar();
+/**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+					i--;
+					j--;
+/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+					printf("\nCorrected!\n");
+/**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+				}
+
 				for(j = 0; (MINUS(file_line[i])) && (j <= (int)file_lenght); i++)
 				{
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
