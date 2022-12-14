@@ -90,6 +90,15 @@ typedef struct stack_c
         struct stack_c *prev;
         struct stack_c *next;
 } stack_d;
+
+/**==================================*/
+/**========= stack_free.c ===========*/
+/**==================================*/
+
+
+void stack_free(stack_t **stack)
+
+
 /**==================================*/
 /**========= stack_funs.c ===========*/
 /**==================================*/
@@ -97,3 +106,5 @@ int fun_pint(stack_t **stack, unsigned int line_number)
 int fun_pop(stack_t **stack, unsigned int line_number)
 int fun_swap(stack_t **stack, nsigned int line_number)
 int fun_add(stack_t **stack, unsigned int line_number)
+
+#endif /*__MAIN_H__*/
