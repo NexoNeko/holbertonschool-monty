@@ -1,25 +1,75 @@
 #include "main.h"
 /**
- * stack_add - adds a new node to the begining of the stack
+ * op_add_value - adds a new node to the end of the stack
  *
- * @head: List to add a node to
- * @n: Value to store in the new node
+ * @head: Pointer to last node in head
+ * @op_value: Value well store for the fun to operate on
  *
- * Return: Pointer to last node
+ * Return: 0 on success, 5 on failure
+ * Description: Warning, only run this function after running
+ * op_add_value! This will move the position of head to the
+ * next node!
  */
-stack_d *stack_add(stack_d **head, const int n)
+int op_add_value(instruction_b **head, const int op_value)
 {
-	stack_d *new_node = malloc(sizeof(stack_d));
+	instruction_b *new_node = malloc(sizeof(instruction_b));
 
 	if (!new_node || !head)
-		free(new_node);
-	else
 	{
-		if (*head)
-			(*head)->prev = new_node;
-		new_node->n = n;
-		new_node->next = (*head);
-		(*head) = new_node;
+		free(new_node);
+		return(5);
 	}
-	return (new_node);
+	if (*head)
+		(*head)->next = new_node;
+	new_node->value = op_value;
+	new_node->prev = (*head);
+	new_node->next = NULL;
+	(*head) = new_node;
+	return (0);
+}
+
+/**
+ * op_add_instruction - adds a new node to the end of the stack
+ *
+ * @head: Pointer to last value in list
+ * @op: index of the function to call
+ *
+ * Return: 0 on success, 5 on failure
+ * Description: Warning, do not run this function two times
+ * in a row!
+ * It will not change the position of head!
+ */
+int op_add_instruction(instruction_b **head, const int op)
+{
+        instruction_b *new_node = malloc(sizeof(instruction_b));
+
+	if (!new_node || !head)
+	{
+		free(new_node);
+		return(5);
+	}
+	if (*head)
+		(*head)->next = new_node;
+	new_node->value = op;
+	new_node->prev = (*head);
+	new_node->next = NULL;
+	return(0);
+}
+
+/**
+ * op_get_first - returns a pointer to the first node
+ *
+ * @head: Pointer to value>0 int list
+ *
+ * Return: Pointer to first node
+ */
+instruction_b *op_get_first(instruction_b **head)
+{
+	if (*head)
+	{
+		while ((*head)->prev)
+			(*head) = (*head)->prev;
+	}
+
+	return (*head);
 }
