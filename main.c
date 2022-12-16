@@ -31,11 +31,13 @@ int main(int argc, char **argv)
 	char *file_line = NULL;
 	size_t file_lenght = 0;
 	ssize_t file_line_read;
-	struct instruction_a *head;
+	instruction_b *head;
 
+	head = NULL;
+/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 	if (bol_test_A || bol_test_B || bol_test_C || bol_test_D || bol_test_E)
 		printf("starting tests...");
-/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+
 	printf("entering main\n");
 	if (argv[1])
 		printf("argument passed: %s\n", argv[1]);
@@ -109,7 +111,6 @@ int main(int argc, char **argv)
 
 			if (MINUS(file_line[i]))
 			{
-
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 				printf("\nValue found!\n");
 /**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
@@ -156,30 +157,66 @@ getchar();
 printf("\nby now we should either enter or fail to enter strcmp\n");
 /**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
-		for(j = 0; (j <= opcode_fun_num); j++)
+		for(i = 0; (i < opcode_fun_num); i++)
 		{
-			if (strcmp(*opcode, opcode_possible_command) == 0)
+/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+				printf("Trying to enter strcmp...\n");
+				printf("opcode[i] = %s[%d]...\n", opcode[i], i);
+				printf("possible command: %s\n", opcode_possible_command);
+/**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+			if (strcmp(opcode[i], opcode_possible_command) == 0)
 			{
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 				printf("entered strcmp!\n");
-				printf("Breaking!");
-				break;
+				printf("i = %d\n", i);
+				getchar();
 /**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+
 				/** If you find the operation, save it to the op */
-				op_add_instruction(&head, (const int)i);
-				/** If op is push(1), handle the saving of push value */
-				if (i == 1)
+				if (i >= 0)
 				{
+/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+				printf("i is valid!! \n");
+				printf("val of i: %d", i);
+				printf("Writing...!\n");
+				getchar();
+/**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+					op_add_instruction(&head, i);
+/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+					printf("!! Remember to add the exit here\n");
+				printf("Success? => ");
+
+				if (head)
+					printf("head instruct: %d\n", head->opcode);
+				else
+					printf("Nope!\n");
+				getchar();
+/**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+					/** If op is push|0|, handle the saving of push value */
+				}
+				if (i == 0)
+				{
+/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+				printf("i is equal to 0! (push) ");
+				printf("Checking if file_line[i] is valid: %d[%d]", file_line[i], i),
+				getchar();
+/**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 					if (!file_line[i])
 						fun_exit(3);
-					for(; (i <= COMMAND_BUFFER) && (file_line[i] != '\0'); i++)
+/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+				printf("test passed! ");
+				getchar();
+/**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+					for(; (i < COMMAND_BUFFER) && (file_line[i] != '\0'); i++)
 					{
 						if (file_line[i] != ' ')
 						{
 							for(c = 0; (file_line[i] != ' ') && (c <= COMMAND_BUFFER); i++)
 							{
 								op_command_buffer[c++] = file_line[i];
-								if (file_line[i] == '\0' || file_line[i] == ' ')
+								i++;
+								if (MINUS(file_line[(i)])) /* fix this */
+									printf("L<line_number>: usage: push integer");
 									break;
 							}
 						}
@@ -196,11 +233,11 @@ printf("\nby now we should either enter or fail to enter strcmp\n");
 					op_add_value(&head, (const int)i);
 				}
 			}
-/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-				printf("failed to enter strcmp\n");
-				break;
-/**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 		}
+/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+				printf("Exiting strcmp\n");
+				getchar();
+/**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 	}
 
 	return(0);

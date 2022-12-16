@@ -7,24 +7,15 @@
  *
  * Return: 0 on success, 5 on failure
  * Description: Warning, only run this function after running
- * op_add_value! This will move the position of head to the
+ * op_add_instruction! This will move the position of head to the
  * next node!
  */
 int op_add_value(instruction_b **head, const int op_value)
 {
-	instruction_b *new_node = malloc(sizeof(instruction_b));
-
-	if (!new_node || !head)
-	{
-		free(new_node);
-		return(5);
-	}
 	if (*head)
-		(*head)->next = new_node;
-	new_node->value = op_value;
-	new_node->prev = (*head);
-	new_node->next = NULL;
-	(*head) = new_node;
+		(*head)->value = op_value;
+	else
+		return(5);
 	return (0);
 }
 
@@ -43,15 +34,15 @@ int op_add_instruction(instruction_b **head, const int op)
 {
         instruction_b *new_node = malloc(sizeof(instruction_b));
 
-	if (!new_node || !head)
-	{
-		free(new_node);
-		return(5);
-	}
+	if (!new_node)
+		return(5); /**<<< modify here */
+	new_node->opcode = op;
 	if (*head)
+	{
 		(*head)->next = new_node;
-	new_node->value = op;
-	new_node->prev = (*head);
+		new_node->prev = (*head);
+	}
+	(*head) = new_node;
 	new_node->next = NULL;
 	return(0);
 }
