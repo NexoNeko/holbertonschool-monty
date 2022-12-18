@@ -76,7 +76,7 @@ typedef struct instruction_a
 #define POSSIBLE_BUFFER 80
 #define COMMAND_BUFFER 124
 #define MINUS(a) ((a) > 96 && (a) < 123 ? 1 : 0 )
-
+#define DIGIT(a) ((a) > 47 && (a) < 58 ? 1 : 0 )
 
 /**==================================*/
 /**===== function signatures=========*/
@@ -84,10 +84,10 @@ typedef struct instruction_a
 
 /** auxiliary functions */
 int fun_caller(const instruction_b *);
+int file_line_content_check(int);
 int fun_exit(int);
 
 /** instruct op functions */
-
 int op_add_value(instruction_b **, const int);
 int op_add_instruction(instruction_b **, const int);
 instruction_b *op_get_first(instruction_b **);

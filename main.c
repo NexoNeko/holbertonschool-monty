@@ -26,12 +26,12 @@ int main(int argc, char **argv)
 {
 	int i = 0, j = 0, c = 0, opcode_fun_num;
 	char opcode_possible_command[POSSIBLE_BUFFER], op_command_buffer[COMMAND_BUFFER], file_line_counter = 0;
-	int bol_test_A = 1, bol_test_B = 1, bol_test_C = 1, bol_test_D =1, bol_test_E = 1;
 	FILE *file_stream;
 	char *file_line = NULL;
 	size_t file_lenght = 0;
 	ssize_t file_line_read;
 	instruction_b *head;
+	int bol_test_A = 1, bol_test_B = 1, bol_test_C = 1, bol_test_D =1, bol_test_E = 1;
 
 	head = NULL;
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
@@ -161,7 +161,7 @@ printf("\nby now we should either enter or fail to enter strcmp\n");
 		{
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 				printf("Trying to enter strcmp...\n");
-				printf("opcode[i] = %s[%d]...\n", opcode[i], i);
+				printf("opcode[%d] = %s...\n", i, opcode[i]);
 				printf("possible command: %s\n", opcode_possible_command);
 /**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 			if (strcmp(opcode[i], opcode_possible_command) == 0)
@@ -176,14 +176,12 @@ printf("\nby now we should either enter or fail to enter strcmp\n");
 				if (i >= 0)
 				{
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-				printf("i is valid!! \n");
-				printf("val of i: %d", i);
-				printf("Writing...!\n");
+				printf("val of i: %d > ", i);
+				printf("Adding instruction %d to head...!\n", i);
 				getchar();
 /**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 					op_add_instruction(&head, i);
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-					printf("!! Remember to add the exit here\n");
 				printf("Success? => ");
 
 				if (head)
@@ -196,28 +194,54 @@ printf("\nby now we should either enter or fail to enter strcmp\n");
 				}
 				if (i == 0)
 				{
+					i = ++j;
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-				printf("i is equal to 0! (push) ");
-				printf("Checking if file_line[i] is valid: %d[%d]", file_line[i], i),
+					printf("Checking if file_line[%d] is NULL: [ %c ] from:  %s\n", j, file_line[j], file_line),
 				getchar();
 /**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
-					if (!file_line[i])
+					if (file_line_content_check((int)file_line[i]) == 0)
 						fun_exit(3);
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+				printf("Initializing command array\n");
+/**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+
+					for (c = 0; c < COMMAND_BUFFER; c++)
+					op_command_buffer[c] = '\0';
+					c = 0;
+
+/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 				printf("test passed! ");
+				printf("Moving on to check for the values in %s...\n", file_line);
+/**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+					for(; file_line[i] != '\0' && file_line[i] != '\n'; i++)
+					{
+/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+						printf("is file line a valid DIGIT? ");
+						printf("file_line[%d]: %c\n", i, file_line[i]);
+						getchar();
+/**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+						if (DIGIT(file_line[i]))
+						{
+/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+				printf("\nfile_line[%d]: %c", i, file_line[i]);
+				printf(" is a valid digit!\n");
+				printf("entering inner loop...");
 				getchar();
 /**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
-					for(; (i < COMMAND_BUFFER) && (file_line[i] != '\0'); i++)
-					{
-						if (file_line[i] != ' ')
-						{
-							for(c = 0; (file_line[i] != ' ') && (c <= COMMAND_BUFFER); i++)
+				for(c = 0; c < COMMAND_BUFFER && file_line[i] != '\0'; )
 							{
-								op_command_buffer[c++] = file_line[i];
-								i++;
-								if (MINUS(file_line[(i)])) /* fix this */
-									printf("L<line_number>: usage: push integer");
-									break;
+/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+				printf("\nfile_line[%d]: %c\n", i, file_line[i]);
+				printf("check val: %d - ", file_line_content_check((int)file_line[i]));
+/**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+				if (file_line_content_check((int)file_line[i]) != 0 && !DIGIT(file_line[i]))
+								{
+									printf("Invalid value!!!");
+									exit(exit_failure);
+								}
+									op_command_buffer[c] = file_line[i];
+									i++;
+									c++;
 							}
 						}
 						else
@@ -229,8 +253,27 @@ printf("\nby now we should either enter or fail to enter strcmp\n");
 						}
 					}
 					/** save the values to the op as int*/
-					i = atoi(op_command_buffer);
+					if (op_command_buffer[0] != '\0')
+						i = atoi(op_command_buffer);
+					else
+					{
+						printf("\ninvalid value! breaking!\n");
+						exit(EXIT_FAILURE);
+					}
+/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+				printf("\nVal of i: %d", i);
+				getchar();
+				printf("\nValue retrieved: %s\n", op_command_buffer);
+				printf("attempting to save... ");
+				getchar();
+/**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 					op_add_value(&head, (const int)i);
+/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+				printf("\nVal saved: %d\n", head->value);
+				printf("breaking!\n");
+					break;
+				getchar();
+/**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 				}
 			}
 		}
@@ -258,4 +301,29 @@ int fun_caller(const instruction_b *head)
 	};
 
 	return((opcode_fun[op])(args));
+}
+
+int file_line_content_check(int file_line_char)
+{
+	switch (file_line_char)
+	{
+		case 00: /** NULL */
+			return(0);
+			break;
+		case 03:/** end of text */
+			return (0);
+			break;
+		case 9: /** horizontal tab*/
+			return(0);
+			break;
+		case 10: /** line feed*/
+			return(0);
+			break;
+		case 32: /** space */
+			return(0);
+			break;
+		default:
+			return(4);
+			break;
+	}
 }
