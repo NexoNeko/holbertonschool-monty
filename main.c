@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 	size_t file_lenght = 0;
 	ssize_t file_line_read;
 	char opcode_possible_command[POSSIBLE_BUFFER], op_command_buffer[COMMAND_BUFFER];
-	char *file_line = NULL;
+	char *file_line;
 	FILE *file_stream;
 	instruction_b *head;
 	stack_t *stack;
@@ -41,7 +41,7 @@ int main(int argc, char **argv)
 	/** initialize stack */
 	stack = malloc(sizeof(stack_t));
 	if (!stack)
-		fun_exit(4, 0);
+		fun_exit(4, 2, &head, &stack);
 	stack->n = 42;
 	stack->next = NULL;
 	stack->prev = NULL;
@@ -52,14 +52,20 @@ int main(int argc, char **argv)
 
 	/** if can't access the file, exit error */
 	if (!argv[1])
-		fun_exit(1, 0);
+	{
+		fun_exit(1, 2, &head, &stack);
+	}
 	else if (access(argv[1], R_OK) != 0)
-		fun_exit(2, 1, argv[1]);
+	{
+		fun_exit(2, 3, argv[1], &head, &stack);
+	}
 
 	/** read the file stream */
 	file_stream = fopen(argv[1], "r");
 	if (!file_stream)
-		fun_exit(2, 1, argv[1]);
+	{
+		fun_exit(2, 3, argv[1], &head, &stack);
+	}
 
 	while((file_line_read = getline(&file_line, &file_lenght, file_stream)) != -1)
 	{
@@ -100,14 +106,14 @@ int main(int argc, char **argv)
 				/** If you find the operation, save it to the op */
 				if (i >= 0)
 				{
-				fun_exit(op_add_instruction(&head, i), 0);
+					fun_exit(op_add_instruction(&head, i), 3, &head, &stack, file_line);
 					/** If op is push|0|, handle the saving of push value */
 				}
 				if (i == 0)
 				{
 					i = --c;
 					if (file_line_content_check((int)file_line[i]) == 0)
-						fun_exit(5, 1, file_line_counter);
+						fun_exit(5, 4, file_line_counter, &head, &stack, file_line);
 
 					for (c = 0; c < COMMAND_BUFFER; c++)
 					op_command_buffer[c] = '\0';
@@ -121,7 +127,7 @@ int main(int argc, char **argv)
 							{
 								if (file_line_content_check((int)file_line[i]) != 0 && !DIGIT(file_line[i]))
 								{
-									fun_exit(5, 1, file_line_counter);
+									fun_exit(5, 4, file_line_counter, &head, &stack, file_line);
 								}
 								op_command_buffer[c] = file_line[i];
 								i++;
@@ -130,25 +136,26 @@ int main(int argc, char **argv)
 						}
 					}
 					if (!op_command_buffer[0])
-						fun_exit(5, 1, file_line_counter);
+						fun_exit(5, 4, file_line_counter, &head, &stack, file_line);
 					/** save the values to the op as int */
 					    i = atoi(op_command_buffer);
-				fun_exit(op_add_value(&head, (const int)i), 0);
+				fun_exit(op_add_value(&head, (const int)i), 2, &head, &stack);
 				}
 				break;
 			}
 			else if ((i + 1) == opcode_fun_num)
-				fun_exit(3, 2, file_line_counter, opcode_possible_command);
+				fun_exit(3, 5, file_line_counter, opcode_possible_command, &head, &stack);
 		}
 	}
 	while(head->prev != NULL)
 		head = head->prev;
 	while(stack->prev != NULL)
 		stack = stack->prev;
+	free (file_line);
 
 	while(1)
 	{
-		fun_exit(fun_caller(head, &stack), 0);
+		fun_exit(fun_caller(head, &stack), 2, &head, &stack);
 		head = head->next;
 		if (!head)
 			break;
