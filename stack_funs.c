@@ -1,66 +1,94 @@
 #include "main.h"
-/**
- * op_add_value - adds a new node to the end of the stack
- *
- * @head: Pointer to last node in head
- * @op_value: Value well store for the fun to operate on
- *
- * Return: 0 on success, 5 on failure
- * Description: Warning, only run this function after running
- * op_add_instruction! This will move the position of head to the
- * next node!
- */
-int op_add_value(instruction_b **head, const int op_value)
-{
-	if (*head)
-		(*head)->value = op_value;
-	else
-		return(5);
-	return (0);
-}
 
 /**
- * op_add_instruction - adds a new node to the end of the stack
- *
- * @head: Pointer to last value in list
- * @op: index of the function to call
- *
- * Return: 0 on success, 5 on failure
- * Description: Warning, do not run this function two times
- * in a row!
- * It will not change the position of head!
+ * fun_push - A function that pushes a value into the stack
+ * @stack: The pointer to the stack list.
+ * @line_number: The current working line number of a Monty bytecodes file.
+ * @value: value to operate with
  */
-int op_add_instruction(instruction_b **head, const int op)
+int fun_push(stack_t **stack, int line_number, int value)
 {
-        instruction_b *new_node = malloc(sizeof(instruction_b));
-
-	if (!new_node)
-		return(5); /**<<< modify here */
-	new_node->opcode = op;
-	if (*head)
-	{
-		(*head)->next = new_node;
-		new_node->prev = (*head);
-	}
-	(*head) = new_node;
-	new_node->next = NULL;
 	return(0);
 }
 
 /**
- * op_get_first - returns a pointer to the first node
- *
- * @head: Pointer to value>0 int list
- *
- * Return: Pointer to first node
+ * fun_pint - A function that prints the top value of the stack.
+ * @stack: The pointer to the stack list.
+ * @line_number: The current working line number of a Monty bytecodes file.
+ * @value: value to operate with
  */
-instruction_b *op_get_first(instruction_b **head)
+int fun_pint(stack_t **stack, int line_number, int value)
 {
-	if (*head)
+	stack_t *tmp = *stack;
+
+	if (!tmp)
 	{
-		while ((*head)->prev)
-			(*head) = (*head)->prev;
+		stack_errors(1, line_number);
+		exit(EXIT_FAILURE);
+	}
+	printf("%d\n", tmp->n);
+}
+
+/**
+ * fun_pop - A function that remove the top value in the stack.
+ * @stack: The pointer to the stack list.
+ * @line_number: The line number of a Monty bytecodes file.
+ * @value: value to operate with
+ */
+int fun_pop(stack_t **stack, int line_number, int value)
+{
+	stack_t *tmp = *stack;
+
+	if (!tmp)
+	{
+		stack_errors(2, line_number);
+		exit(EXIT_FAILURE);
 	}
 
-	return (*head);
+	if (tmp->next)
+		tmp->next->prev = tmp->prev;
+	*stack = tmp->tmp->next;
+	free(tmp);
+}
+
+/**
+ * fun_swap - A function that swaps the two values at the top of stack.
+ * @stack: The pointer to the top of a stack list.
+ * @line_number: The line number of a Monty bytecodes file.
+ * @value: value to operate with
+ */
+int fun_swap(stack_t **stack, int line_number, int value)
+{
+	int tmp;
+
+	if (*stack == NULL || (*stack)->next == NULL)
+	{
+		stack_errors(3, line number);
+		exit(EXIT_FAILURE)
+	}
+	tmp = (*stack)->next->n;
+	(*stak)->next->n = (*stack)->n;
+	(*stack)->n = tmp;
+}
+
+/**
+ * fun_add - A function that adds the two top values of a stack.
+ * @stack: The pointer to the stack list.
+ * @line_number: The line number of a Monty bytecodes file.
+ * @value: value to operate with
+ * Description: The result is stored in the second value node
+ *              from the top and the top value  is removed.
+ */
+int fun_add(stack_t **stack, int line_number, int value)
+{
+	int temp;
+
+	if (*stack == NULL || (*stack)->next == NULL)
+	{
+		stack_errors(4, line_number);
+		exit(EXIT_FAILURE);
+	}
+	temp = (*stack)->n + (*stack)->next->n;
+	(*stack)->next->n = temp;
+	fun_pop(stack, line_number);
 }

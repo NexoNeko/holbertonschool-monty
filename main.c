@@ -58,8 +58,10 @@ int main(int argc, char **argv)
 /**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
 	/** if can't access the file, exit error */
-	if (argc < 1 || access(argv[1], R_OK) != 0)
-		fun_exit(1);
+	if (argc < 1)
+		fun_exit(1, 0);
+	else if (access(argv[1], R_OK) != 0)
+		fun_exit(1, 1, argv[1]);
 
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 	printf("test passed!\n");
@@ -71,7 +73,7 @@ int main(int argc, char **argv)
 	/** read the file stream */
 	file_stream = fopen(argv[1], "r");
 	if (!file_stream)
-		perror("failed to read file stream: ");
+		fun_exit(1, 1, argv[1]);
 
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 	printf("file open!\n");
@@ -200,7 +202,7 @@ printf("\nby now we should either enter or fail to enter strcmp\n");
 				getchar();
 /**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 					if (file_line_content_check((int)file_line[i]) == 0)
-						fun_exit(3);
+						fun_exit(5, 1, file_line_counter);
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 				printf("Initializing command array\n");
 /**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
@@ -236,8 +238,7 @@ printf("\nby now we should either enter or fail to enter strcmp\n");
 /**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 				if (file_line_content_check((int)file_line[i]) != 0 && !DIGIT(file_line[i]))
 								{
-									printf("Invalid value!!!");
-									exit(exit_failure);
+									fun_exit(5, 1, file_line_counter);
 								}
 									op_command_buffer[c] = file_line[i];
 									i++;
@@ -246,20 +247,11 @@ printf("\nby now we should either enter or fail to enter strcmp\n");
 						}
 						else
 							i++;
-						if (c > 0)
-						{
-							op_command_buffer[++c] = '\0';
-							break;
-						}
 					}
-					/** save the values to the op as int*/
-					if (op_command_buffer[0] != '\0')
-						i = atoi(op_command_buffer);
-					else
-					{
-						printf("\ninvalid value! breaking!\n");
-						exit(EXIT_FAILURE);
-					}
+					if (!op_command_buffer[0])
+						fun_exit(5, 1, file_line_counter);
+					/** save the values to the op as int */
+					    i = atoi(op_command_buffer);
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 				printf("\nVal of i: %d", i);
 				getchar();
@@ -267,7 +259,7 @@ printf("\nby now we should either enter or fail to enter strcmp\n");
 				printf("attempting to save... ");
 				getchar();
 /**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
-					op_add_value(&head, (const int)i);
+				fun_exit(op_add_value(&head, (const int)i));
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 				printf("\nVal saved: %d\n", head->value);
 				printf("breaking!\n");
@@ -277,6 +269,7 @@ printf("\nby now we should either enter or fail to enter strcmp\n");
 				}
 			}
 		}
+		fun_exit(3, 2, file_line_counter, opcode_possible_command);
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 				printf("Exiting strcmp\n");
 				getchar();
