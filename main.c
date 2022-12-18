@@ -73,11 +73,12 @@ int main(int argc, char **argv)
 					opcode_possible_command[j] = '\0';
 
 				j = i;
-				for(j--; MINUS(file_line[j]); )
-				{
-					i--;
-					j--;
-				}
+				if (j > 0)
+					for(j--; MINUS(file_line[j]); )
+					{
+						i--;
+						j--;
+					}
 
 				for(j = 0; (MINUS(file_line[i])) && (j <= (int)file_lenght); i++)
 				{
