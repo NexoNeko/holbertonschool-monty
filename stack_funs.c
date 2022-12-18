@@ -1,4 +1,4 @@
-#include "main.h"
+#include "monty.h"
 
 /**
  * fun_push - A function that pushes a value into the stack

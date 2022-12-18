@@ -1,4 +1,4 @@
-#include "main.h"
+#include "monty.h"
 /**
  * op_add_value - adds a new node to the end of the stack
  *

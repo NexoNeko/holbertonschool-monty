@@ -1,4 +1,4 @@
-#include "main.h"
+#include "monty.h"
 
 int fun_exit(int value, int arg_num, ...)
 {

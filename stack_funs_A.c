@@ -1,4 +1,4 @@
-#include "main.h"
+#include "monty.h"
 
 /**
  * fun_nop - Does nothing

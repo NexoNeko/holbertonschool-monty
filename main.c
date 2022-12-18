@@ -1,4 +1,4 @@
-#include "main.h"
+#include "monty.h"
 /**
  * this is just a variable holding possible functions
  * update this one if you want more functions
