@@ -31,6 +31,7 @@ int main(int argc, char **argv)
 	size_t file_lenght = 0;
 	ssize_t file_line_read;
 	instruction_b *head;
+	stack_t *stack;
 	int bol_test_A = 1, bol_test_B = 1, bol_test_C = 1, bol_test_D =1, bol_test_E = 1;
 
 	head = NULL;
@@ -58,10 +59,10 @@ int main(int argc, char **argv)
 /**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
 	/** if can't access the file, exit error */
-	if (argc < 1)
+	if (!argv[1])
 		fun_exit(1, 0);
 	else if (access(argv[1], R_OK) != 0)
-		fun_exit(1, 1, argv[1]);
+		fun_exit(2, 1, argv[1]);
 
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 	printf("test passed!\n");
@@ -73,7 +74,7 @@ int main(int argc, char **argv)
 	/** read the file stream */
 	file_stream = fopen(argv[1], "r");
 	if (!file_stream)
-		fun_exit(1, 1, argv[1]);
+		fun_exit(2, 1, argv[1]);
 
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 	printf("file open!\n");
@@ -182,7 +183,7 @@ printf("\nby now we should either enter or fail to enter strcmp\n");
 				printf("Adding instruction %d to head...!\n", i);
 				getchar();
 /**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
-					op_add_instruction(&head, i);
+				fun_exit(op_add_instruction(&head, i), 0);
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 				printf("Success? => ");
 
@@ -259,17 +260,18 @@ printf("\nby now we should either enter or fail to enter strcmp\n");
 				printf("attempting to save... ");
 				getchar();
 /**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
-				fun_exit(op_add_value(&head, (const int)i));
+				fun_exit(op_add_value(&head, (const int)i), 0);
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 				printf("\nVal saved: %d\n", head->value);
-				printf("breaking!\n");
-					break;
+				printf("I think we should break now!\n");
 				getchar();
 /**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 				}
+				break;
 			}
+			else if ((i + 1) == opcode_fun_num)
+				fun_exit(3, 2, file_line_counter, opcode_possible_command);
 		}
-		fun_exit(3, 2, file_line_counter, opcode_possible_command);
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 				printf("Exiting strcmp\n");
 				getchar();
@@ -279,11 +281,11 @@ printf("\nby now we should either enter or fail to enter strcmp\n");
 	return(0);
 }
 
-int fun_caller(const instruction_b *head)
+int fun_caller(const instruction_b *head, stack_t *stack)
 {
 	int op = head->opcode;
 	int args = head->value;
-	int (*opcode_fun[])(int) = {
+	int (*opcode_fun[])(stack_t **, int) = {
 		&fun_push,
 		&fun_pall,
 		&fun_pint,
@@ -293,7 +295,7 @@ int fun_caller(const instruction_b *head)
 		&fun_nop
 	};
 
-	return((opcode_fun[op])(args));
+	return((opcode_fun[op])(&stack, args));
 }
 
 int file_line_content_check(int file_line_char)

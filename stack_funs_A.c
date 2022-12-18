@@ -3,32 +3,28 @@
 /**
  * fun_nop - Does nothing
  * @stack: The pointer to the stack list.
- * @line_number: The line number of a Monty bytecodes file.
  * @value: value to operate with
  *
  */
-int fun_nop(stack_t **stack, int line_number, int value)
+int fun_nop(stack_t **stack,  int value)
 {
 	if(*stack)
-		if(line_number = 0)
-			if (value = 0)
-				return(0);
+		if (value == 0)
+			return(0);
 	return(0);
 }
 
 /**
- * stack_free - A function that frees the memory allocated for stack.
- * @stack: Pointer to the doubly linked list rpresentation of the stack.
- * Return: Nothing.
+ * fun_pall - prints all the values on the stack, starting from the top
+ * @stack: The pointer to the stack list.
+ * @value: value to operate with
+ *
  */
-void stack_free(stack_t **stack)
+int fun_pall(stack_t **stack,  int value)
 {
-	stack_t *tmp = *stack;
-
-	while (*stack)
-	{
-		tmp = (*stack)->next;
-		free(*stack);
-		*stack = tmp;
-	}
+	if(*stack)
+		if (value == 0)
+			return(0);
+	return(0);
 }
+

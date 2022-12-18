@@ -83,9 +83,10 @@ typedef struct instruction_a
 /**==================================*/
 
 /** auxiliary functions */
-int fun_caller(const instruction_b *);
+int fun_caller(const instruction_b *, stack_t *);
 int file_line_content_check(int);
-int fun_exit(int value, int arg_num, ...);
+int fun_exit(int, int, ...);
+void stack_free(stack_t **);
 
 /** instruct op functions */
 int op_add_value(instruction_b **, const int);
@@ -93,13 +94,13 @@ int op_add_instruction(instruction_b **, const int);
 instruction_b *op_get_first(instruction_b **);
 
 /** interpreter functions */
-int fun_push(stack_t **stack, int line_number, int value);
-int fun_pall(stack_t **, int, int);
-int fun_pint(stack_t **, int, int);
-int fun_pop(stack_t **, int, int);
-int fun_swap(stack_t **, int, int);
-int fun_add(stack_t **, int, int);
-int fun_nop(stack_t **, int, int);
+int fun_push(stack_t **,  int);
+int fun_pall(stack_t **, int);
+int fun_pint(stack_t **, int);
+int fun_pop(stack_t **, int);
+int fun_swap(stack_t **, int);
+int fun_add(stack_t **, int);
+int fun_nop(stack_t **, int);
 
 
 #endif

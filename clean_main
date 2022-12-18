@@ -1,0 +1,176 @@
+#include "main.h"
+/**
+ * this is just a variable holding possible functions
+ * update this one if you want more functions
+ * Remember to update fun caller with the address
+ * of the new function too.
+ */
+char *opcode[] = {
+	"push",
+	"pall",
+	"pint",
+	"pop",
+	"swap",
+	"add",
+	"nop"
+};
+
+/**
+ * main - entry point for the program
+ *
+ *
+ *
+ *
+ */
+int main(int argc, char **argv)
+{
+	int i = 0, j = 0, c = 0, opcode_fun_num;
+	char opcode_possible_command[POSSIBLE_BUFFER], op_command_buffer[COMMAND_BUFFER], file_line_counter = 0;
+	FILE *file_stream;
+	char *file_line = NULL;
+	size_t file_lenght = 0;
+	ssize_t file_line_read;
+	instruction_b *head;
+	stack_t *stack;
+
+	head = NULL;
+
+	/** get the n of functions we have */
+	opcode_fun_num = (sizeof(opcode) / sizeof(char *));
+
+	/** if can't access the file or no args, exit error */
+	if (!argv[1])
+		fun_exit(1, 0);
+	else if (access(argv[1], R_OK) != 0)
+		fun_exit(2, 1, argv[1]);
+
+	/** read the file stream */
+	file_stream = fopen(argv[1], "r");
+	if (!file_stream)
+		fun_exit(1, 1, argv[1]);
+
+	while((file_line_read = getline(&file_line, &file_lenght, file_stream)) != -1)
+	{
+		file_line_counter++;
+
+		/** Save all but spaces to an array to check for commands */
+		for(i = 0; (i <= (int)file_lenght) && (file_line[i] != '\0'); i++)
+		{
+			if (MINUS(file_line[i]))
+			{
+				for (j = 0; j < POSSIBLE_BUFFER; j++)
+					opcode_possible_command[j] = '\0';
+				j = i;
+				for(j--; MINUS(file_line[j]); )
+				{
+					i--;
+					j--;
+				}
+
+				for(j = 0; (MINUS(file_line[i])) && (j <= (int)file_lenght); i++)
+				{
+					opcode_possible_command[j] = file_line[i];
+					j++;
+				}
+				break;
+			}
+			else
+				i++;
+		}
+
+		for(i = 0; (i < opcode_fun_num); i++)
+		{
+			if (strcmp(opcode[i], opcode_possible_command) == 0)
+			{
+
+				/** If you find the operation, save it to the op */
+				if (i >= 0)
+				{
+					fun_exit(op_add_instruction(&head, i), 0);
+					/** If op is push|0|, handle the saving of push value */
+				}
+				if (i == 0)
+				{
+					i = ++j;
+					if (file_line_content_check((int)file_line[i]) == 0)
+						fun_exit(5, 1, file_line_counter);
+
+					for (c = 0; c < COMMAND_BUFFER; c++)
+						op_command_buffer[c] = '\0';
+					c = 0;
+
+					for(; file_line[i] != '\0' && file_line[i] != '\n'; i++)
+					{
+						if (DIGIT(file_line[i]))
+						{
+							for(c = 0; c < COMMAND_BUFFER && file_line[i] != '\0'; )
+							{
+								if (file_line_content_check((int)file_line[i]) != 0 && !DIGIT(file_line[i]))
+								{
+									fun_exit(5, 1, file_line_counter);
+								}
+								op_command_buffer[c] = file_line[i];
+								i++;
+								c++;
+							}
+						}
+						else
+							i++;
+					}
+					if (!op_command_buffer[0])
+						fun_exit(5, 1, file_line_counter);
+					/** save the values to the op as int */
+					i = atoi(op_command_buffer);
+					fun_exit(op_add_value(&head, (const int)i), 0);
+				}
+				break;
+			}
+			else if ((i + 1) == opcode_fun_num)
+				fun_exit(3, 2, file_line_counter, opcode_possible_command);
+		}
+	}
+
+	return(0);
+}
+
+int fun_caller(const instruction_b *head, stack_t *stack)
+{
+	int op = head->opcode;
+	int args = head->value;
+	int (*opcode_fun[])(stack_t **, int) = {
+		&fun_push,
+		&fun_pall,
+		&fun_pint,
+		&fun_pop,
+		&fun_swap,
+		&fun_add,
+		&fun_nop
+	};
+
+	return((opcode_fun[op])(&stack, args));
+}
+
+int file_line_content_check(int file_line_char)
+{
+	switch (file_line_char)
+	{
+		case 00: /** NULL */
+			return(0);
+			break;
+		case 03:/** end of text */
+			return (0);
+			break;
+		case 9: /** horizontal tab*/
+			return(0);
+			break;
+		case 10: /** line feed*/
+			return(0);
+			break;
+		case 32: /** space */
+			return(0);
+			break;
+		default:
+			return(4);
+			break;
+	}
+}
