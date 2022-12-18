@@ -8,10 +8,6 @@
  */
 int fun_nop(stack_t **stack,  int value)
 {
-/**>>>>*/
-	printf("nopin");
-	getchar();
-/**<<<<<*/
 	if(*stack)
 		if (value == 0)
 			return(0);
@@ -28,10 +24,6 @@ int fun_pall(stack_t **stack,  int value)
 {
 	stack_t *tmp = *stack;
 
-/**>>>>*/
-	printf("palling");
-	getchar();
-/**<<<<<*/
 	(void)value;
 	if (*stack == NULL)
 		return(0);

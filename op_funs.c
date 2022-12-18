@@ -42,6 +42,8 @@ int op_add_instruction(instruction_b **head, const int op)
 		(*head)->next = new_node;
 		new_node->prev = (*head);
 	}
+	else
+		new_node->prev = NULL;
 	(*head) = new_node;
 	new_node->next = NULL;
 	return(0);

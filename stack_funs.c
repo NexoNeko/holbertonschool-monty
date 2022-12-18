@@ -9,13 +9,9 @@ int fun_push(stack_t **stack,  int value)
 {
 	stack_t *new_node = malloc(sizeof(stack_t));
 
-/**>>>>*/
-	printf("pushnig %d", value);
-	getchar();
-/**<<<<<*/
 	if (!new_node)
 		return(4);
-	if ((*stack)->next == NULL && (*stack)->n == INIT_VAL)
+	if ((*stack)->next == NULL && (*stack)->n == 42)
 	{
 		(*stack)->n = value;
 		free(new_node);
@@ -40,10 +36,6 @@ int fun_pint(stack_t **stack,  int value)
 {
 	stack_t *tmp = *stack;
 
-/**>>>>*/
-	printf("pintin top value from stack");
-	getchar();
-/**<<<<<*/
 	(void)value;
 	if ((*stack)->next == NULL && (*stack)->prev == NULL)
 		return(6);
@@ -62,10 +54,6 @@ int fun_pop(stack_t **stack,  int value)
 {
 	stack_t *tmp = *stack;
 
-/**>>>>*/
-	printf("poppin");
-	getchar();
-/**<<<<<*/
 	(void)value;
 	if ((*stack)->next == NULL && (*stack)->prev == NULL)
 		return(7);
@@ -87,10 +75,6 @@ int fun_swap(stack_t **stack, int value)
 {
 	stack_t *tmp = *stack;
 
-/**>>>>*/
-	printf("swapping the two top values\n");
-	getchar();
-/**<<<<<*/
 	(void)value;
 	if ((*stack)->next == NULL && (*stack)->prev == NULL)
 		return(8);
@@ -127,10 +111,7 @@ int fun_add(stack_t **stack, int value)
 {
 	stack_t *tmp = *stack;
 	int a, b;
-/**>>>>*/
-	printf("adding the two top values");
-	getchar();
-/**<<<<<*/
+
 	(void)value;
 	if ((*stack)->next == NULL && (*stack)->prev == NULL)
 		return(9);

@@ -42,7 +42,7 @@ int main(int argc, char **argv)
 	stack = malloc(sizeof(stack_t));
 	if (!stack)
 		fun_exit(4, 0);
-	stack->n = INIT_VAL;
+	stack->n = 42;
 	stack->next = NULL;
 	stack->prev = NULL;
 
@@ -73,12 +73,11 @@ int main(int argc, char **argv)
 					opcode_possible_command[j] = '\0';
 
 				j = i;
-				if (j > 0)
-					for(j--; MINUS(file_line[j]); )
-					{
-						i--;
-						j--;
-					}
+				for(j--; MINUS(file_line[j]); )
+				{
+					i--;
+					j--;
+				}
 
 				for(j = 0; (MINUS(file_line[i])) && (j <= (int)file_lenght); i++)
 				{
