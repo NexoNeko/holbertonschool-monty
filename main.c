@@ -34,6 +34,7 @@ int main(int argc, char **argv)
 	stack_t *stack;
 	int bol_test_A = 1, bol_test_B = 1, bol_test_C = 1, bol_test_D =1, bol_test_E = 1;
 
+	(void)argc;
 	head = NULL;
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 	if (bol_test_A || bol_test_B || bol_test_C || bol_test_D || bol_test_E)
