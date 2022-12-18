@@ -8,14 +8,13 @@
 int fun_push(stack_t **stack,  int value)
 {
 	stack_t *new_node = malloc(sizeof(stack_t));
-
 	if(!new_node)
 		return(4);
 	new_node->n = value;
 	new_node->next = (*stack);
 	new_node->prev = NULL;
 	(*stack)->prev = new_node;
-
+	*stack = new_node;
 	return(0);
 }
 
@@ -34,6 +33,8 @@ int fun_pint(stack_t **stack,  int value)
 	while(tmp->next != NULL)
 		tmp = tmp->next;
 	printf("%d\n", tmp->n);
+	while(tmp->prev != NULL)
+		tmp = tmp->prev;
 	return(0);
 }
 
@@ -102,15 +103,20 @@ int fun_swap(stack_t **stack, int value)
 int fun_add(stack_t **stack, int value)
 {
 	stack_t *tmp = *stack;
+	int a, b;
 
 	(void)value;
-	if (*stack == NULL || (*stack)->next == NULL)
+	if ((*stack) == NULL || (*stack)->next == NULL)
 		return(9);
-	while(tmp->next->next != NULL)
-		tmp = tmp->next;
-	*stack = tmp;
-	tmp = tmp->next;
-	(*stack)->n += tmp->n;
+	while(tmp->prev != NULL)
+		tmp = tmp->prev;
+	*stack = tmp->next;
+		a = (*stack)->n;
+		b = tmp->n;
+		a += b;
+		(*stack)->n = a;
 	fun_pop(&tmp, 0);
+	while((*stack)->prev != NULL)
+		*stack = (*stack)->prev;
 	return(0);
 }

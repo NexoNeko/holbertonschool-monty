@@ -22,13 +22,15 @@ int fun_nop(stack_t **stack,  int value)
  */
 int fun_pall(stack_t **stack,  int value)
 {
+	stack_t *tmp = *stack;
+
 	(void)value;
 	if (*stack == NULL)
 		return(0);
-	while (*stack != NULL)
+	while (tmp != NULL)
 	{
-		printf("%d", (*stack)->n);
-		*stack = (*stack)->next;
+		printf("%d\n", tmp->n);
+		tmp = tmp->next;
 	}
 	return(0);
 }

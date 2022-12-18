@@ -34,7 +34,18 @@ int main(int argc, char **argv)
 	stack_t *stack;
 	int bol_test_A = 1, bol_test_B = 1, bol_test_C = 1, bol_test_D =1, bol_test_E = 1;
 
+	(void)argc;
+	/** initialize head of op instructions*/
 	head = NULL;
+	stack = NULL;
+
+	/** initialize stack */
+	stack = malloc(sizeof(stack_t));
+	if (!stack)
+		fun_exit(4, 0);
+	stack->n = -1;
+	stack->next = NULL;
+	stack->prev = NULL;
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 	if (bol_test_A || bol_test_B || bol_test_C || bol_test_D || bol_test_E)
 		printf("starting tests...");
@@ -74,7 +85,7 @@ int main(int argc, char **argv)
 	/** read the file stream */
 	file_stream = fopen(argv[1], "r");
 	if (!file_stream)
-		fun_exit(1, 1, argv[1]);
+		fun_exit(2, 1, argv[1]);
 
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 	printf("file open!\n");
@@ -263,20 +274,32 @@ printf("\nby now we should either enter or fail to enter strcmp\n");
 				fun_exit(op_add_value(&head, (const int)i), 0);
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 				printf("\nVal saved: %d\n", head->value);
-				printf("breaking!\n");
-					break;
+				printf("I think we should break now!\n");
 				getchar();
 /**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 				}
+				break;
 			}
+			else if ((i + 1) == opcode_fun_num)
+				fun_exit(3, 2, file_line_counter, opcode_possible_command);
 		}
-		fun_exit(3, 2, file_line_counter, opcode_possible_command);
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 				printf("Exiting strcmp\n");
-				getchar();
+				printf("Attempting function call...\n");
 /**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 	}
+	while(head->prev != NULL)
+		head = head->prev;
+	while(stack->prev != NULL)
+		stack = stack->prev;
 
+	while(1)
+	{
+		fun_exit(fun_caller(head, stack), 0);
+		head = head->next;
+		if (!head)
+			break;
+	}
 	return(0);
 }
 
@@ -293,7 +316,13 @@ int fun_caller(const instruction_b *head, stack_t *stack)
 		&fun_add,
 		&fun_nop
 	};
-
+/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+				printf("\n\n---------------------------\n\n");
+				printf("Values: op: %d args: %d\n", op, args);
+				printf("Running function...\n");
+				printf("\n\n---------------------------\n\n");
+				getchar();
+/**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 	return((opcode_fun[op])(&stack, args));
 }
 

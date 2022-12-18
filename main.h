@@ -83,7 +83,7 @@ typedef struct instruction_a
 /**==================================*/
 
 /** auxiliary functions */
-int fun_caller(const instruction_b *, stack_t *);
+int fun_caller(const instruction_b *, stack_t **);
 int file_line_content_check(int);
 int fun_exit(int, int, ...);
 void stack_free(stack_t **);
