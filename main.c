@@ -42,7 +42,7 @@ int main(int argc, char **argv)
 	stack = malloc(sizeof(stack_t));
 	if (!stack)
 		fun_exit(4, 0);
-	stack->n = 0;
+	stack->n = INIT_VAL;
 	stack->next = NULL;
 	stack->prev = NULL;
 
@@ -73,17 +73,19 @@ int main(int argc, char **argv)
 					opcode_possible_command[j] = '\0';
 
 				j = i;
-				for(j--; MINUS(file_line[j]); )
-				{
-					i--;
-					j--;
-				}
+				if (j > 0)
+					for(j--; MINUS(file_line[j]); )
+					{
+						i--;
+						j--;
+					}
 
 				for(j = 0; (MINUS(file_line[i])) && (j <= (int)file_lenght); i++)
 				{
 						opcode_possible_command[j] = file_line[i];
 				  j++;
 				}
+				c = i;
 				break;
 			}
 			else
@@ -103,7 +105,7 @@ int main(int argc, char **argv)
 				}
 				if (i == 0)
 				{
-					i = ++j;
+					i = --c;
 					if (file_line_content_check((int)file_line[i]) == 0)
 						fun_exit(5, 1, file_line_counter);
 
@@ -115,19 +117,17 @@ int main(int argc, char **argv)
 					{
 						if (DIGIT(file_line[i]))
 						{
-				for(c = 0; c < COMMAND_BUFFER && file_line[i] != '\0'; )
+							for(c = 0; c < COMMAND_BUFFER && file_line[i] != '\0'; )
 							{
-				if (file_line_content_check((int)file_line[i]) != 0 && !DIGIT(file_line[i]))
+								if (file_line_content_check((int)file_line[i]) != 0 && !DIGIT(file_line[i]))
 								{
 									fun_exit(5, 1, file_line_counter);
 								}
-									op_command_buffer[c] = file_line[i];
-									i++;
-									c++;
+								op_command_buffer[c] = file_line[i];
+								i++;
+								c++;
 							}
 						}
-						else
-							i++;
 					}
 					if (!op_command_buffer[0])
 						fun_exit(5, 1, file_line_counter);

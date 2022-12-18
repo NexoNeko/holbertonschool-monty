@@ -75,6 +75,7 @@ typedef struct instruction_a
 /**==================================*/
 #define POSSIBLE_BUFFER 80
 #define COMMAND_BUFFER 124
+#define INIT_VAL 1050
 #define MINUS(a) ((a) > 96 && (a) < 123 ? 1 : 0 )
 #define DIGIT(a) ((a) > 47 && (a) < 58 ? 1 : 0 )
 

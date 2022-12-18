@@ -13,13 +13,21 @@ int fun_push(stack_t **stack,  int value)
 	printf("pushnig %d", value);
 	getchar();
 /**<<<<<*/
-	if(!new_node)
+	if (!new_node)
 		return(4);
+	if ((*stack)->next == NULL && (*stack)->n == INIT_VAL)
+	{
+		(*stack)->n = value;
+		free(new_node);
+	}
+	else
+	{
 	new_node->n = value;
 	new_node->next = (*stack);
 	new_node->prev = NULL;
 	(*stack)->prev = new_node;
 	*stack = new_node;
+	}
 	return(0);
 }
 
@@ -37,7 +45,7 @@ int fun_pint(stack_t **stack,  int value)
 	getchar();
 /**<<<<<*/
 	(void)value;
-	if (!tmp)
+	if ((*stack)->next == NULL && (*stack)->prev == NULL)
 		return(6);
 	while(tmp->prev != NULL)
 		tmp = tmp->prev;
@@ -59,7 +67,7 @@ int fun_pop(stack_t **stack,  int value)
 	getchar();
 /**<<<<<*/
 	(void)value;
-	if (!tmp)
+	if ((*stack)->next == NULL && (*stack)->prev == NULL)
 		return(7);
 
 	while(tmp->prev != NULL)
@@ -84,7 +92,7 @@ int fun_swap(stack_t **stack, int value)
 	getchar();
 /**<<<<<*/
 	(void)value;
-	if (*stack == NULL || (*stack)->next == NULL)
+	if ((*stack)->next == NULL && (*stack)->prev == NULL)
 		return(8);
 	/** find last node */
 	while(tmp->prev != NULL)
@@ -124,7 +132,7 @@ int fun_add(stack_t **stack, int value)
 	getchar();
 /**<<<<<*/
 	(void)value;
-	if ((*stack) == NULL || (*stack)->next == NULL)
+	if ((*stack)->next == NULL && (*stack)->prev == NULL)
 		return(9);
 	while(tmp->prev != NULL)
 		tmp = tmp->prev;

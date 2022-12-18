@@ -229,7 +229,7 @@ printf("\nby now we should either enter or fail to enter strcmp\n");
 /**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 					for(; file_line[i] != '\0' && file_line[i] != '\n'; i++)
 					{
-/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+0/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 						printf("is file line a valid DIGIT? ");
 						printf("file_line[%d]: %c\n", i, file_line[i]);
 						getchar();
