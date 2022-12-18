@@ -5,8 +5,6 @@ int fun_exit(int value, int arg_num, ...)
 	va_list error_info;
 	int line;
 	char *text;
-	instruction_b *head = NULL;
-	stack_t *stack = NULL;
 
 	va_start(error_info, arg_num);
 
@@ -59,12 +57,6 @@ int fun_exit(int value, int arg_num, ...)
 		break;
 
 	}
-        *head = va_arg(error_info, instruction_b);
-	*stack = va_arg(error_info, stack_t);
-
-	free_ophead(head);
-	free_stack(stack);
-
 	va_end(error_info);
 	exit(EXIT_FAILURE);
 }
