@@ -8,6 +8,11 @@
 int fun_push(stack_t **stack,  int value)
 {
 	stack_t *new_node = malloc(sizeof(stack_t));
+
+/**>>>>*/
+	printf("pushnig %d", value);
+	getchar();
+/**<<<<<*/
 	if(!new_node)
 		return(4);
 	new_node->n = value;
@@ -27,14 +32,16 @@ int fun_pint(stack_t **stack,  int value)
 {
 	stack_t *tmp = *stack;
 
+/**>>>>*/
+	printf("pintin top value from stack");
+	getchar();
+/**<<<<<*/
 	(void)value;
 	if (!tmp)
 		return(6);
-	while(tmp->next != NULL)
-		tmp = tmp->next;
-	printf("%d\n", tmp->n);
 	while(tmp->prev != NULL)
 		tmp = tmp->prev;
+	printf("%d\n", tmp->n);
 	return(0);
 }
 
@@ -47,15 +54,18 @@ int fun_pop(stack_t **stack,  int value)
 {
 	stack_t *tmp = *stack;
 
+/**>>>>*/
+	printf("poppin");
+	getchar();
+/**<<<<<*/
 	(void)value;
 	if (!tmp)
 		return(7);
 
-	while(tmp->next->next != NULL)
-		tmp = tmp->next;
-	(*stack) = tmp;
-	tmp = tmp->next;
-	(*stack)->next = NULL;
+	while(tmp->prev != NULL)
+		tmp = tmp->prev;
+	(*stack) = tmp->next;
+	(*stack)->prev = NULL;
 	free(tmp);
 	return(0);
 }
@@ -69,27 +79,32 @@ int fun_swap(stack_t **stack, int value)
 {
 	stack_t *tmp = *stack;
 
+/**>>>>*/
+	printf("swapping the two top values\n");
+	getchar();
+/**<<<<<*/
 	(void)value;
 	if (*stack == NULL || (*stack)->next == NULL)
 		return(8);
 	/** find last node */
-	while(tmp->next->next != NULL)
-		tmp = tmp->next;
+	while(tmp->prev != NULL)
+		tmp = tmp->prev;
 	/**set initial values, Stack = penultimate, tmp = last */
-	(*stack) = tmp;
 	tmp = tmp->next;
+	(*stack) = tmp;
+	tmp = tmp->prev;
 	/** tmp is gonna become penultimate */
 	/** so tmp-> prev must be penultimate's */
-	tmp->prev = (*stack)->prev;
+	tmp->next = (*stack)->next;
 	/** stack is gonna become last */
 	/** so stack prev points to penultimate*/
 	/** tmp->next points to last value */
-	(*stack)->prev = tmp;
-	tmp->next = *stack;
+	(*stack)->next = tmp;
+	tmp->prev = *stack;
 	/** the value before penultimate is pointing to last */
 	/** we correct this here, we also set last next to NULL */
-	tmp->prev->next = tmp;
-	(*stack)->next = NULL;
+	tmp->next->prev = tmp;
+	(*stack)->prev = NULL;
 	return(0);
 }
 
@@ -104,7 +119,10 @@ int fun_add(stack_t **stack, int value)
 {
 	stack_t *tmp = *stack;
 	int a, b;
-
+/**>>>>*/
+	printf("adding the two top values");
+	getchar();
+/**<<<<<*/
 	(void)value;
 	if ((*stack) == NULL || (*stack)->next == NULL)
 		return(9);

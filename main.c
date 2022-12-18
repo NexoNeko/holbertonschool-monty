@@ -18,18 +18,18 @@ char *opcode[] = {
 /**
  * main - entry point for the program
  *
- *
- *
+ * @argc: argument counter
+ * @argv: file path
  *
  */
 int main(int argc, char **argv)
 {
-	int i = 0, j = 0, c = 0, opcode_fun_num;
-	char opcode_possible_command[POSSIBLE_BUFFER], op_command_buffer[COMMAND_BUFFER], file_line_counter = 0;
-	FILE *file_stream;
-	char *file_line = NULL;
+	int i = 0, j = 0, c = 0, opcode_fun_num, file_line_counter = 0;
 	size_t file_lenght = 0;
 	ssize_t file_line_read;
+	char opcode_possible_command[POSSIBLE_BUFFER], op_command_buffer[COMMAND_BUFFER];
+	char *file_line = NULL;
+	FILE *file_stream;
 	instruction_b *head;
 	stack_t *stack;
 
