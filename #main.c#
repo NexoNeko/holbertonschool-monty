@@ -285,11 +285,13 @@ printf("\nby now we should either enter or fail to enter strcmp\n");
 		}
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 				printf("Exiting strcmp\n");
-				printf("Attempting function call...\n");
 /**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 	}
-	while(1)
-		fun_exit(fun_caller(head, stack), 0);
+/**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+				printf("Attempting function call...\n");
+/**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+				while (1)
+					fun_exit(fun_caller(head, stack), 0);
 	return(0);
 }
 
@@ -307,10 +309,10 @@ int fun_caller(const instruction_b *head, stack_t *stack)
 		&fun_nop
 	};
 /**>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-				printf("\n\n---------------------------\n\n");
+	printf("\n\n----------------------------------\n\n");
+       
 				printf("Values: op: %d args: %d\n", op, args);
 				printf("Running function...\n");
-				printf("\n\n---------------------------\n\n");
 				getchar();
 /**<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 	return((opcode_fun[op])(&stack, args));
